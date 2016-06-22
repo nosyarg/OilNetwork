@@ -1,0 +1,5 @@
+Sources For Each File:
+EnerdataOilData: https://yearbook.enerdata.net/oil-products-balance-trade.html
+UNOILDATA.CSV: comtrade.un.org/data/doc/api (need to get permission to use)
+all bp info:
+http://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html
