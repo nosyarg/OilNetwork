@@ -1,0 +1,14 @@
+companies = csvread('25biggestformatlabcpy.csv');
+connections = csvread('bp2015oilnetworkformatlab.csv');
+
+connections = connections > 3;
+Gupper = graph(connections,'upper');
+plot(Gupper);
+Glower = graph(connections,'lower');
+plot(Glower);
+countrytogdprank = containers.Map();
+[id, country, GDP] = csvimport('GDPByCountryformatlab.csv', 'columns',  {'Ranking', 'Economy','Size'});
+for c = 1:length(country)
+    current = country(c);
+    countrytogdprank(char(current)) = id(c);
+end
