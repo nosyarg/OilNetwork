@@ -19,13 +19,6 @@ for i = 1:length(firstcompany) %loop through and correct for capitalization and 
     secondcompany{i} = current2;
 end
 allcompanies = intersect(firstcompany,secondcompany); %find list of all companies in dataset without repeats
-Edges = [];
-for i = 1:length(firstcompany)
-    Edges = [Edges; sort([firstcompany(i) secondcompany(i)])];
-end
-%Edges = sort(Edges,2)
-%Edges = flipud(transpose(sortrows(transpose(Edges),2)));
-[~,idx] = unique(strcat(Edges(:,1),Edges(:,2)));
-Edges = Edges(idx,:);
-mygraph = graph(Edges(:,1),Edges(:,2));
-plot(mygraph,'Layout','force')
+Edges = [firstcompany secondcompany];
+Edges = sortrows(Ed)
+mygraph = graph(firstcompany,secondcompany)
