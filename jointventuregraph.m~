@@ -44,5 +44,6 @@ mygraph.Nodes.Degree = num2str(degrees(adjacency(mygraph))');
 mygraph.Nodes.Closeness = num2str(closeness(adjacency(mygraph)));
 %mygraph.Nodes.Betweenness = num2str(node_betweenness(adjacency(graph)));
 %mygraph.Nodes.Eigen = num2str(eigencentrality(adjacency(graph)));
-plot25 = plot(mygraph,'layout','c');
+plot25 = plot(mygraph,'layout','force');
 plot25.NodeLabel = table2cell(mygraph.Nodes(:,1))
+bar(mygra)

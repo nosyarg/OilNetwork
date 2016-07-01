@@ -6,3 +6,7 @@ CNPC
 Gazprom
 Saudi Aramco
 Iran
+Qatar
+NNPC
+Exxon Mobil
+BP
