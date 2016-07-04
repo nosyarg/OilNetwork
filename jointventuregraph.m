@@ -44,6 +44,29 @@ mygraph.Nodes.Degree = num2str(degrees(adjacency(mygraph))');
 mygraph.Nodes.Closeness = num2str(closeness(adjacency(mygraph)));
 %mygraph.Nodes.Betweenness = num2str(node_betweenness(adjacency(graph)));
 %mygraph.Nodes.Eigen = num2str(eigencentrality(adjacency(graph)));
+western = {'EXXONMOBIL','BP','SHELL','CHEVRON','TOTAL','ENI','STATOIL','CONOCOPHILLIPS'};
+chinese = {'CNPC','SINOPEC'};
+russian = {'GAZPROM','ROSNEFT','LUKOIL'};
+forprofit = [western chinese];
+%mygraph = rmnode(mygraph,setdiff(top25,[forprofit]))
+%mygraph = rmnode(mygraph,setdiff(top25,['ENI' 'EXXONMOBIL']))
+%mygraph = rmnode(mygraph,forprofit);
+%mygraph = rmnode(mygraph,russian);
+%mygraph = rmnode(mygraph,'PETRONAS');
+mygraph.Nodes.Degree = num2str(degrees(adjacency(mygraph))');
 plot25 = plot(mygraph,'layout','force');
-plot25.NodeLabel = table2cell(mygraph.Nodes(:,1))
-bar(sort(str2num(mygraph.Nodes.Degree)))
+plot25.NodeLabel = table2cell(mygraph.Nodes(:,1));
+%highlight(plot25,russian,'NodeColor','r');
+[yvals, positions] = sort(str2num(mygraph.Nodes.Degree));
+%labs = table2array(mygraph.Nodes(:,1));
+bar(yvals)
+linkstocut = [];
+for i = 1:length(forprofit)
+   for j = 1:height(mygraph.Nodes)
+       linkstocut = [linkstocut; forprofit(i), mygraph.Nodes(j,1)];
+   end
+end
+%linkstocutcpy = linkstocut;
+%[linkstocutcpy(:,1), linkstocutcpy(:,2)] = [mygraph.Edges(:,1)]
+%linkstocut = intersect(linkstocut,mygraph.Edges,'rows');
+%highlight(plot25,graph(linkstocut(:,1),linkstocut(:,2)),'EdgeColor','w');
