@@ -49,17 +49,17 @@ chinese = {'CNPC','SINOPEC'};
 russian = {'GAZPROM','ROSNEFT','LUKOIL'};
 forprofit = [western chinese];
 %mygraph = rmnode(mygraph,setdiff(top25,[forprofit]))
-%mygraph = rmnode(mygraph,setdiff(top25,['ENI' 'EXXONMOBIL']))
+%mygraph = rmnode(mygraph,setdiff(forprofit,['STATOIL']))
 %mygraph = rmnode(mygraph,forprofit);
 %mygraph = rmnode(mygraph,russian);
 %mygraph = rmnode(mygraph,'PETRONAS');
 mygraph.Nodes.Degree = num2str(degrees(adjacency(mygraph))');
-plot25 = plot(mygraph,'layout','force');
+plot25 = plot(mygraph,'layout','circle');
 plot25.NodeLabel = table2cell(mygraph.Nodes(:,1));
 %highlight(plot25,russian,'NodeColor','r');
 [yvals, positions] = sort(str2num(mygraph.Nodes.Degree));
 %labs = table2array(mygraph.Nodes(:,1));
-bar(yvals)
+%bar(yvals)
 linkstocut = [];
 for i = 1:length(forprofit)
    for j = 1:height(mygraph.Nodes)
