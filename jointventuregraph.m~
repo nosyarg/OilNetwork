@@ -42,13 +42,13 @@ top25 = {'SAUDIARAMCO', 'GAZPROM', 'IRANIANNATIONALOILCOMPANY', 'EXXONMOBIL', 'C
 mygraph = rmnode(mygraph,setdiff(allcompanies,top25));
 mygraph.Nodes.Degree = num2str(degrees(adjacency(mygraph))');
 mygraph.Nodes.Closeness = num2str(closeness(adjacency(mygraph)));
-mygraph.Nodes.Betweenness = num2str(node_betweenness_faster(adjacency(mygraph))');
+mygraph.Nodes.Betweenness = num2str(node_betweenness(adjacency(graph)));
 %mygraph.Nodes.Eigen = num2str(eig(adjacency(graph)));
 western = {'EXXONMOBIL','BP','SHELL','CHEVRON','TOTAL','ENI','STATOIL','CONOCOPHILLIPS'};
 chinese = {'CNPC','SINOPEC'};
 russian = {'GAZPROM','ROSNEFT','LUKOIL'};
 forprofit = [western chinese];
-mygraph = rmnode(mygraph,setdiff(top25,[forprofit, russian]))
+%mygraph = rmnode(mygraph,setdiff(top25,[forprofit]))
 %mygraph = rmnode(mygraph,setdiff(forprofit,['STATOIL']))
 %mygraph = rmnode(mygraph,forprofit);
 %mygraph = rmnode(mygraph,russian);
@@ -60,7 +60,7 @@ plot25.NodeLabel = table2cell(mygraph.Nodes(:,1));
 [yvals, positions] = sort(str2num(mygraph.Nodes.Degree));
 %labs = table2array(mygraph.Nodes(:,1));
 bar(yvals)
-Interstaradj = [ones(10,25); ones(15,10) zeros(15,15)];
+Interstaradj = [ones(13,25); ones(12,13) zeros(12,12)];
 Interstaradj(logical(eye(size(Interstaradj)))) = 0;
 interstar = graph(Interstaradj);
 bar(sort(degree(interstar)));
