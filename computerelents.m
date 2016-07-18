@@ -14,6 +14,7 @@ function [relents, oilrelent] = computerelents(generationfunction,oilgraph,reps1
         end 
     end
     avg = degcounts/reps1;
+    avg = avg/sum(avg);
     relents = zeros(n,1);
     for i = 1:reps2
         currentadjmat = generationfunction(n);
@@ -22,7 +23,8 @@ function [relents, oilrelent] = computerelents(generationfunction,oilgraph,reps1
         for j = 1:n
             degcounts(j) = sum(degs == j);
         end
-        relents(i) = sum(degcounts.*log(max(degcounts,.001)./max(avg,.0000001)));
+        degcounts = degcounts/max(sum(degcounts),.001);
+        relents(i) = sum(degcounts.*log2(max(degcounts,.000001)./max(avg,.000001)));
         if(~mod(i,100))
             i + 1
         end
@@ -32,7 +34,6 @@ function [relents, oilrelent] = computerelents(generationfunction,oilgraph,reps1
     for j = 1:n
             oildegcount(j) = oildegcount(j) + sum(oildegs == j);
     end
-    oildegcount = oildegcount/n;
-    avg = avg/n;
-    oilrelent = sum(oildegcount.*log(max(oildegcount,.00001)./max(avg,.001)));
+    oildegcount = oildegcount/sum(oildegcount);
+    oilrelent = sum(oildegcount.*log(max(oildegcount,.000001)./max(avg,.000001)));
 end

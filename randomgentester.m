@@ -27,5 +27,9 @@ chinese = {'CNPC','SINOPEC'};
 russian = {'GAZPROM','ROSNEFT','LUKOIL'};
 forprofit = [western chinese];
 mygraph = rmnode(mygraph,setdiff(allcompanies,top25));
-mygraph = rmnode(mygraph, [forprofit, russian, 'PETRONAS'])
-[x, y] = computerelents(@ergen,mygraph,10000,10000)
+%mygraph = rmnode(mygraph, setdiff(top25,[forprofit, russian, 'PETRONAS']))
+%mygraph = rmnode(mygraph, [forprofit, russian, 'PETRONAS'])
+mygraph = rmnode(mygraph, 'PEMEX')
+reps = 100000;
+[x, y] = computerelents(@twosetnomex,mygraph,reps,reps);
+sum(x<y)/reps

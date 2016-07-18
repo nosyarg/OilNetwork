@@ -1,9 +1,9 @@
-function adjmat = twoset(~)
+function adjmat =  twosetnomex(~)
     nforprofit = 14;
     forprofitprob = 73/91;
-    nregional = 11;
-    regionalprob = 3/55;
-    crossprob = 75/154;
+    nregional = 10;
+    regionalprob = 3/45;
+    crossprob = 74/140;
     n = nforprofit + nregional;
     zerodiag = ones(n) - eye(n);
     ul = rand(nforprofit) < forprofitprob;

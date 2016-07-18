@@ -1,14 +1,14 @@
-function adjmat = twosetprefferential()
-%assign the first two sets as normal, but assign the third set
-%prefferentially
-regionallinks = 3;
-forprofitlinks = 73;
-crosslinks = 75;
-forprofitnum = 14;
-regionalnum = 11;
-probforprofit = ones(forprofitnum,1)/forprofitnum;
-probregional = ones(regionalnum,1)/regionalnum;
-cumprobforprofit = probforprofit;
-cumprobregional = probregional;
-adjmat = zeros(forprofitnum + regionalnum);
+function adjmat = twoset(~)
+    nforprofit = 14;
+    forprofitprob = 73/91;
+    nregional = 11;
+    regionalprob = 3/55;
+    crossprob = 75/154;
+    n = nforprofit + nregional;
+    zerodiag = ones(n) - eye(n);
+    ul = rand(nforprofit) < forprofitprob;
+    lr = rand(nregional) < regionalprob;
+    
+    adjmat = [ul ur; ll lr];
+    adjmat = adjmat.*zerodiag;
 end
