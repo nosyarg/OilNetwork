@@ -1,4 +1,15 @@
-%randomgentester
+%GDPDEGScatterplot
+cd('/Users/grayson/desktop/summerresearch'); %get into a good directory
+FILE = fopen('companiesgdppercent.csv'); %pull in the network data
+DATA = textscan(FILE,'%s %s','delimiter',',','headerlines',1);
+fclose(FILE); %close the loose file
+country = DATA{1};
+gdp = DATA{2};
+tempgdp = zeros(length(gdp),1)
+for i = 1:length(gdp)
+    tempgdp(i) = str2num(gdp{i});
+end
+gdp = tempgdp;
 cd('/Users/grayson/desktop/summerresearch'); %get into a good directory
 FILE = fopen('jointventurenet.csv'); %pull in the network data
 DATA = textscan(FILE,'%s %s %s','delimiter',',');
@@ -22,23 +33,25 @@ end
 Edges = Edges(idx,:);
 mygraph = graph(Edges(:,1),Edges(:,2));
 top25 = {'SAUDIARAMCO', 'GAZPROM', 'IRANIANNATIONALOILCOMPANY', 'EXXONMOBIL', 'CNPC', 'BP', 'SHELL', 'PEMEX', 'CHEVRON', 'KUWAITPETROLEUM', 'ABUDHABI', 'SONATRACH', 'TOTAL', 'PETROBRAS', 'ROSNEFT', 'IRAQIOILMINISTRY', 'QATARPETROLEUM', 'LUKOIL', 'ENI', 'STATOIL', 'CONOCOPHILLIPS', 'PDVSA', 'SINOPEC', 'NNPC', 'PETRONAS'};
-western = {'EXXONMOBIL','BP','SHELL','CHEVRON','TOTAL','ENI','STATOIL','CONOCOPHILLIPS'};
-chinese = {'CNPC','SINOPEC'};
-russian = {'GAZPROM','ROSNEFT','LUKOIL'};
-allgov = {'SAUDIARAMCO','IRANIANNATIONALOILCOMPANY','KUWAITPETROLEUM','ABUDHABI','SONATRACH','IRAQIOILMINISTRY','QATARPETROLEUM','PDVSA','NNPC','PETRONAS'}
-somegov = {'CNPC','PETROBRAS','ROSNEFT','ENI','STATOIL','SINOPEC','GAZPROM'}
-nogov = {'EXXONMOBIL','BP','SHELL','CHEVRON','TOTAL','LUKOIL','CONOCOPHILLIPS'}
-forprofit = [western chinese];
 mygraph = rmnode(mygraph,setdiff(allcompanies,top25));
-%mygraph = rmnode(mygraph, setdiff(top25,[forprofit, russian, 'PETRONAS']))
-%mygraph = rmnode(mygraph, [forprofit, russian, 'PETRONAS'])
-mygraph = rmnode(mygraph, 'PEMEX')
-reps = 10000;
-[x, y] = computerelents(@gdpgen,mygraph,reps,reps);
-sum(x<y)/reps
-%mygraph = rmnode(mygraph,allgov)
-%myplot = plot(mygraph,'layout','circle')
-%highlight(myplot,allgov,'NodeColor','r','MarkerSize',10)
-%highlight(myplot,somegov,'NodeColor','m','MarkerSize',10)
-%highlight(myplot,nogov,'NodeColor','b','MarkerSize',10)
-
+mygraph = rmnode(mygraph,{'PEMEX'});
+toremove = strcmp(country,'PEMEX');
+country = country(~toremove);
+gdp = gdp(~toremove);
+[~,degidx] = sort(table2cell(mygraph.Nodes));
+[~,gdpidx] = sort(country);
+degs = degree(mygraph);
+gdp = gdp/100;
+degs = degs/std(degs)
+gdp = gdp/std(gdp)
+scatter(-log(gdp(gdpidx)),degs(degidx));
+a = text(-log(gdp(gdpidx))+.2,degs(degidx),sort(country));
+set(a,'rotation',25)
+hold on;
+y = degs(degidx);
+x = [ones(length(gdp),1),-log(gdp(gdpidx))];
+param = x\y;
+linmod = x*param;
+plot(x(:,2),linmod);
+rsq = 1 - sum((y - linmod).^2)/sum((y - mean(y)).^2);
+hold off;
